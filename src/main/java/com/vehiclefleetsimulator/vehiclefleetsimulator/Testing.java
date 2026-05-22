@@ -143,7 +143,7 @@ public class Testing extends Application {
             v.setFill(Color.TRANSPARENT);
             v.calculateNextPoint();
             v.update();
-            v.rotate(3);
+            v.rotate(0);
             root.getChildren().addAll(v, v.imageView);
         }
 
