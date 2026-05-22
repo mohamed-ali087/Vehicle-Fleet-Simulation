@@ -38,21 +38,4 @@ public class Car extends LandVehicle{
 
         return c;
     }
-
-
-
-
-
-
-
-    /*
-        #TODO: a way to handle side (horizontal) image and vertical image in the update method
-        @override
-        update(){
-        super.update()
-        switch allignmenmt ...
-
-        or the allignment method should handel it in the block (modularity)
-        }
-     */
 }

@@ -1,3 +1,6 @@
+/*
+    This class is unused for now.
+ */
 // TurningPoint.java
 package com.vehiclefleetsimulator.vehiclefleetsimulator;
 

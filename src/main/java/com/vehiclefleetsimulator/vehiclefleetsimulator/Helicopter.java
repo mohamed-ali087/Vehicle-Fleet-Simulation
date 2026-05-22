@@ -31,31 +31,36 @@ public class Helicopter extends AirVehicle {
     }
 
     @Override
-    public void update(){
-        // change image according to flight status
-        switch (this.flightState){
-            case FLYING -> {
-                setImgUp       ("Assets/Helicopter/Flying/up.png");
-                setImgDown     ("Assets/Helicopter/Flying/down.png");
-                setImgLeft     ("Assets/Helicopter/Flying/left.png");
-                setImgRight    ("Assets/Helicopter/Flying/right.png");
-                setImgUpLeft   ("Assets/Helicopter/Flying/upLeft.png");
-                setImgUpRight  ("Assets/Helicopter/Flying/upRight.png");
-                setImgDownLeft ("Assets/Helicopter/Flying/downLeft.png");
-                setImgDownRight("Assets/Helicopter/Flying/downRight.png");
+    public void setFlightState(FlightState flightState){
+        /*
+        This method overrides the super method to change helicopter image according to it's state
+        */
+        if (flightState != this.flightState){ // only change if state changes, to avoid performance issues.
+            switch (flightState){
+                case FLYING -> {
+                    setImgUp       ("Assets/Helicopter/Flying/up.png");
+                    setImgDown     ("Assets/Helicopter/Flying/down.png");
+                    setImgLeft     ("Assets/Helicopter/Flying/left.png");
+                    setImgRight    ("Assets/Helicopter/Flying/right.png");
+                    setImgUpLeft   ("Assets/Helicopter/Flying/upLeft.png");
+                    setImgUpRight  ("Assets/Helicopter/Flying/upRight.png");
+                    setImgDownLeft ("Assets/Helicopter/Flying/downLeft.png");
+                    setImgDownRight("Assets/Helicopter/Flying/downRight.png");
+                }
+                case LANDING -> {
+                    setImgUp       ("Assets/Helicopter/Ground/up.png");
+                    setImgDown     ("Assets/Helicopter/Ground/down.png");
+                    setImgLeft     ("Assets/Helicopter/Ground/left.png");
+                    setImgRight    ("Assets/Helicopter/Ground/right.png");
+                    setImgUpLeft   ("Assets/Helicopter/Ground/upLeft.png");
+                    setImgUpRight  ("Assets/Helicopter/Ground/upRight.png");
+                    setImgDownLeft ("Assets/Helicopter/Ground/downLeft.png");
+                    setImgDownRight("Assets/Helicopter/Ground/downRight.png");
+                }
             }
-            case LANDING -> {
-                setImgUp       ("Assets/Helicopter/Ground/up.png");
-                setImgDown     ("Assets/Helicopter/Ground/down.png");
-                setImgLeft     ("Assets/Helicopter/Ground/left.png");
-                setImgRight    ("Assets/Helicopter/Ground/right.png");
-                setImgUpLeft   ("Assets/Helicopter/Ground/upLeft.png");
-                setImgUpRight  ("Assets/Helicopter/Ground/upRight.png");
-                setImgDownLeft ("Assets/Helicopter/Ground/downLeft.png");
-                setImgDownRight("Assets/Helicopter/Ground/downRight.png");
-            }
-        }
-        super.update();
-    }
 
+            rotate(0); // this is just used to update image.
+        }
+        super.setFlightState(flightState);
+    }
 }

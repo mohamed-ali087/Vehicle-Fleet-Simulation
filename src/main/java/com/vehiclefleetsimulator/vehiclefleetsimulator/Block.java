@@ -32,7 +32,7 @@ public abstract class Block extends Rectangle implements Trackable{
         this.width = width;
         this.length = length;
         this.direction = 0;
-        this.setRotate(direction); // #TODO: Replace with rotate #EDIT: rotate will be removed, handle alignment instead
+        this.setRotate(direction); // #TODO: Replace with rotate
 
         this.setX(centerX - width/2.0);
         this.setY(centerY - length/2.0);
@@ -46,12 +46,6 @@ public abstract class Block extends Rectangle implements Trackable{
         imageView.setFitHeight(length);
         imageView.setX(this.getX());
         imageView.setY(this.getY());
-
-        double diagonalLength = Math.sqrt(width*width + length*length);
-
-//        collisionCircle.setCenterX(centerX);
-//        collisionCircle.setCenterY(centerY);
-//        collisionCircle.setRadius(diagonalLength/2);
 
         this.allignment = Alignment.VERTICAL;
 
@@ -121,10 +115,6 @@ public abstract class Block extends Rectangle implements Trackable{
         return direction % 360;
     }
 
-//    public void setDirection(double direction) {
-//        rotate(direction - getDirection());
-//    }
-
     @Override
     public Alignment getAllignment() {
         return allignment;
@@ -161,7 +151,7 @@ public abstract class Block extends Rectangle implements Trackable{
             Method in JavaFX retrieves the rotation angle in degrees of a Node relative to its parent node. */
     }
 
-    // overload that takes a direction from Directions enum instead of double value
+    // an overload that takes a direction from Directions enum instead of double value
     public void rotate(Directions direction){
         rotate(direction.DEGREE);
     }
@@ -179,16 +169,13 @@ public abstract class Block extends Rectangle implements Trackable{
 
     @Override
     public String toString() {
-        return "Block CenterX: " + centerX + " CenterY: " + centerY ;//+ super.toString();
+        return "Block CenterX: " + centerX + " CenterY: " + centerY ;
     }
 }
 
-// extending group would be better in order to add the rectangle and the image view at the same time.
 /*
 *** Enhancement ***
     * inheriting from shapes.Retangle is meaningless as ImageView has all attributes needed and the Rectangle shape is set transparent anyway.
-    * #TODO: Refactor the Block class to inherit from ImageView.
-    *   EDIT: The Block shouldn't Inherit either rectangle nor ImageView, remove the rectangle and use composition for the ImageView.
-    * #TODO: rotate method is movement related, it should be moved to the Movable interface and implemented in vehicle.
+    * #TODO: rotate method is movement related, it could be moved to the Movable classes.
  */
 

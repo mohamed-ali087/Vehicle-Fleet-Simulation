@@ -1,16 +1,12 @@
 package com.vehiclefleetsimulator.vehiclefleetsimulator;
 
-import javafx.beans.property.SimpleMapProperty;
 import javafx.scene.image.Image;
-
-import java.time.Period;
 
 
 public abstract class Vehicle extends Block implements Movable{
     private double nextX;
     private double nextY;
     private double nextZ;
-//    private double nextDirection;
     private double speed;
     private double vX;
     private double vY;
@@ -34,12 +30,10 @@ public abstract class Vehicle extends Block implements Movable{
 
     protected Vehicle(Builder builder){
         super(builder.centerX, builder.centerY, builder.width, builder.length, builder.image, builder.mass);
-        this.speed = builder.speed;
+//        this.speed = builder.speed;
+        this.setSpeed(builder.speed);
         this.a = builder.a;
         this.direction = builder.direction;
-//        this.nexdDirection = builder.direction;
-//        this.nextX = centerX; // initialization
-//        this.nextY = centerY;
         this.nextX = getCenterX() + vX;
         this.nextY = getCenterY() + vY;
         this.allignment = builder.allignment;
@@ -149,24 +143,8 @@ public abstract class Vehicle extends Block implements Movable{
 
     @Override
     public void accelerate(double a) {
-        setSpeed(speed + a); // the method handles speed constraints
+        setSpeed(speed + a); // the speed setter handles speed constraints
     }
-
-    /*
-    * This method was intended to apply turning animation by turning by chunks, but it's commented for now for simplicity ( Easier Collision handeling)
-
-    double turningDegrees; // turning degrees left
-    @Override
-    public void turn(double degrees, double chunk) {
-        if( ((degrees > 0) && (degrees > turningDegrees)) || ((degrees < 0) && (degrees < turningDegrees))){
-            turningDegrees = degrees;
-            turn(turningDegrees, chunk);
-        } else {
-            turningDegrees = (degrees > 0) ? (turningDegrees - chunk) : (turningDegrees + chunk);
-            direction = (degrees > 0) ? (direction - chunk) : (direction + chunk);
-        }
-    }
-     */
 
     public void turnRight(){
         rotate(Directions.RIGHT);
@@ -196,43 +174,11 @@ public abstract class Vehicle extends Block implements Movable{
                 double zDist = 0;
                 if (!(t instanceof Map.Barrier barrier && (barrier.TYPE == Map.Barrier.TYPES.EDGE || this instanceof Submarine) ) ) {
                     zDist = Math.abs(this.getCenterZ() - other.getCenterZ());
-                } /*
+                }
+                /*
                 if the barrier is edge barrier, set its Z coordinate to be same as this vehicle (collide at any altitude)
                 for the submarine it should collide with all barriers*/
                 if (zDist > 5) continue;
-            /* Logic for collision checking and handling
-               #NOTE: Old approach
-                    #TODO: Update the notes.
-                 1- Collision Checking
-                    i. First Condition
-                        *This object is vertically aligned and the other is horizontal or vice versa:
-                            - this.collisionCircle has a diameter of this vehicle's length.
-                            - other's has a diameter of other's width
-                            - ignore no collision conditions
-                            - apply circle (ball) collision
-                    ii. Second Condition
-                        *Both have same alignment:
-                            - Both have same circle diameter -> vehicle length
-                            - case 1:
-                                one is behind the other:
-                                    apply ball collision
-                            - case 2:
-                                - distance (in direction of their shared allignment) between two vehicles is less than the safe distance but they are not overlapping:
-                                    no collision : continue.
-                 2- Overlapping Checking
-                 3- Overlapping Handling
-                 4- Collision Handling
-             */
-
-                /* vectors break things
-                // this's allignment unit vector
-                double uThis = Math.cos(Math.toRadians(this.getDirection()));
-                // other's (it's normal to this's unit vector)
-                double uOther = Math.cos(Math.toRadians(other.getDirection()));
-                // normal vectors (for code readability)
-                double nThis = uOther;
-                double nOther = uThis;
-                 */
 
                 double criticalDist;
                 double sideCriticalDist;
@@ -243,7 +189,6 @@ public abstract class Vehicle extends Block implements Movable{
 //                double dist = Math.sqrt(yDist * yDist + xDist * xDist);
 
                 // check collision
-// helper reads to avoid repeating this logic
                 double thisHalfW = (this.getAllignment() == Alignment.HORIZONTAL) ? this.length/2 : this.width/2;
                 double thisHalfL = (this.getAllignment() == Alignment.HORIZONTAL) ? this.width/2 : this.length/2;
                 double otherHalfW = (other.getAllignment() == Alignment.HORIZONTAL) ? other.length/2 : other.width/2;
@@ -268,16 +213,12 @@ public abstract class Vehicle extends Block implements Movable{
             }
         }
         return new double[0];
-    } /* This has high time complixity (n^2)
-        #TODO: Move the collision checking logic to the Movable Interface,
+    } /*
+        #TODO: Move the collision checking logic to static method,
             separate collision checking from collision handling.
-            the static collision checking method in the interface should call the collision handeling object method if collision detected.
-
-        #TODO: collisionCircles are actually nothing, remove them
     */
 
 
-    /* same as collisions check, would be moved to interface, or could be a seperate list of turning points */
     private TurningPoint lastTurningPoint = null;
     public double turningPointsCheck() {
         for (Trackable t : Trackable.observed) {
@@ -335,11 +276,6 @@ public abstract class Vehicle extends Block implements Movable{
     public void update() {
         this.setCenter(nextX, nextY);
         moveZ(vZ);
-        rotate(0); // this insures that image is updated.
-        System.out.println(getSpeed());
-
-//        System.out.println(getCenterX());
-//        System.out.println(getCenterY());
     }
 
     @Override
@@ -364,8 +300,6 @@ public abstract class Vehicle extends Block implements Movable{
     public void launchControlPanel(){
         setControlled(true);
         // #TODO
-//        Testing testing = new Testing(this);
-//        testing.launch();
     }
 
     // Setters & Getters
@@ -512,8 +446,6 @@ public abstract class Vehicle extends Block implements Movable{
     /*
     Rotation is handled in Block.rotate()
     the mentioned method insures that Allignment, Direction are set correctly.
-    #TODO: Remove any direction setters or getters and replace them with rotate.
+    #TODO:  remove direction setters or getters implementations and replace them with rotate.
      */
 }
-
-// #TODO: overload rotate method to have left and right from the enum DONE in Block class
