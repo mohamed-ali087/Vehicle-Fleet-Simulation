@@ -1,6 +1,9 @@
 // Testing.java
 package com.vehiclefleetsimulator.vehiclefleetsimulator;
 
+import com.vehiclefleetsimulator.vehiclefleetsimulator.core.Movable;
+import com.vehiclefleetsimulator.vehiclefleetsimulator.map.Map;
+import com.vehiclefleetsimulator.vehiclefleetsimulator.vehicle.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
